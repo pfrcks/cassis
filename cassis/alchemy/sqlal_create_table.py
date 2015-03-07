@@ -1,13 +1,12 @@
 import sqlalchemy
 from sqlalchemy import create_engine
-engine = create_engine('sqlite:///parser.sqlite', echo=False) ##the database
+import os
 from sqlalchemy.ext.declarative import declarative_base
-Base = declarative_base()
 from sqlalchemy import Column, Integer, String, Numeric, Float
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import relationship, backref
-
+Base = declarative_base()
 
 class  level(Base):##creating the levels table
 	__tablename__ = 'levels'
@@ -28,11 +27,11 @@ class line(Base):
 	levels = relationship("level", backref=backref('lines', order_by=lower_id))
 
 
+os.system("rm parser.sqlite")
+engine = create_engine('sqlite:///parser.sqlite', echo=False) ##the database
 level.__table__
 line.__table__
 Base.metadata.create_all(engine)
-
-
 Session = sessionmaker(bind=engine)
 
 

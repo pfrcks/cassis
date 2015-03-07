@@ -1,7 +1,7 @@
 ## Created by Amol Agrawal 8:35 PM, 6th March, 2015
 
 def parse_first():
-	from pyparsing import *
+	from pyparsing import Word,Group, OneOrMore,nums,alphas,printables	
 
 	####Parsing First Line####
 	num=Word(nums+".")
