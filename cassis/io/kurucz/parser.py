@@ -1,14 +1,13 @@
 ## Created by Amol Agrawal 8:35 PM, 6th March, 2015
 
 def parse_first():
-	from pyparsing import Word,Group, OneOrMore,nums,alphas,printables	
+	from pyparsing import Word,OneOrMore,CharsNotIn,delimitedList	
 
 	####Parsing First Line####
-	num=Word(nums+".")
-	word=Word(alphas)
-	lines_levels_saved=Group(num+OneOrMore(word))
-	ion_saved=Group(num+OneOrMore(Word(printables)))
-	firstLine=num+lines_levels_saved+lines_levels_saved+lines_levels_saved+lines_levels_saved+ion_saved
+	whitespaces = ' \t\n\r'
+	word = CharsNotIn(whitespaces)
+	single_space = Word(whitespaces, exact=1)
+	pars_label = OneOrMore(delimitedList(word, delim=single_space, combine=True))
 	###########################
 
 
@@ -16,7 +15,7 @@ def parse_first():
 	dct = dict()
 	for i, lines in enumerate(fd):
 		if i==0:
-			dct[i] = firstLine.parseString(lines).asList()
+			dct[i] = pars_label.parseString(lines)
 		else:
 			break
 	print dct[0]
